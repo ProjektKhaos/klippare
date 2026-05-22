@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+<!-- index.html – uppladdningsformulär för Klippare. Klipparen är byggd av Hans Åberg och KlⒶsse Kod -->
+
+{% block title %}Auto Klippare - By Åberg Online -{% endblock %}
+
+{% block content %}
+{% if error %}
+<div class="alert">{{ error }}</div>
+{% endif %}
+
+<form class="panel form-grid" action="{{ url_for('process') }}" method="post" enctype="multipart/form-data">
+    <section class="form-section full">
+        <h2>Ladda upp bildark</h2>
+        <div class="file-row">
+            <input id="files" name="files" type="file" accept=".png,.jpg,.jpeg,.webp" multiple required>
+        </div>
+        <p class="help">Välj ett eller flera ark i PNG, JPG, JPEG eller WEBP.</p>
+    </section>
+
+    <section class="intro full">
+        <p>
+            Klippare tar ett eller flera bildark med ikoner, loggor eller motiv och delar automatiskt upp dem
+            till separata PNG-filer. Välj ark, justera vid behov och ladda ner resultatet som ZIP.
+        </p>
+    </section>
+
+    <section class="form-section full">
+        <label class="field-label" for="preset">Preset</label>
+        <select id="preset" name="preset">
+            {% for key, preset in presets.items() %}
+            <option value="{{ key }}">{{ preset.label }}</option>
+            {% endfor %}
+        </select>
+    </section>
+
+    <section class="form-section controls sub-panel">
+        <h2>Hur bilderna ska hittas på arket</h2>
+        <div class="number-grid">
+            <label>
+                <span>PADDING</span>
+                <input name="padding" type="number" min="0" max="500" value="{{ presets.standard_amyralen.padding }}">
+            </label>
+            <label>
+                <span>MIN_AREA</span>
+                <input name="min_area" type="number" min="1" value="{{ presets.standard_amyralen.min_area }}">
+            </label>
+            <label>
+                <span>THRESHOLD_VALUE</span>
+                <input name="threshold_value" type="number" min="0" max="255" value="{{ presets.standard_amyralen.threshold_value }}">
+            </label>
+            <label>
+                <span>MORPH_CLOSE bredd</span>
+                <input name="morph_close_kernel_w" type="number" min="1" value="{{ presets.standard_amyralen.morph_close_kernel_w }}">
+            </label>
+            <label>
+                <span>MORPH_CLOSE höjd</span>
+                <input name="morph_close_kernel_h" type="number" min="1" value="{{ presets.standard_amyralen.morph_close_kernel_h }}">
+            </label>
+            <label>
+                <span>DILATE bredd</span>
+                <input name="dilate_kernel_w" type="number" min="1" value="{{ presets.standard_amyralen.dilate_kernel_w }}">
+            </label>
+            <label>
+                <span>DILATE höjd</span>
+                <input name="dilate_kernel_h" type="number" min="1" value="{{ presets.standard_amyralen.dilate_kernel_h }}">
+            </label>
+        </div>
+    </section>
+
+    <section class="form-section options sub-panel">
+        <h2>Hur de färdiga bilderna ska se ut</h2>
+        <label class="check-row">
+            <input name="make_square" type="checkbox" checked>
+            <span>Gör varje bild kvadratisk</span>
+        </label>
+
+        <label class="field-label" for="background_color">Bakgrund</label>
+        <select id="background_color" name="background_color">
+            <option value="white">Vit</option>
+            <option value="light_gray">Ljusgrå</option>
+            <option value="black">Svart</option>
+        </select>
+    </section>
+
+    <div class="actions full">
+        <button class="primary-button" type="submit">Klipp bilder</button>
+    </div>
+
+    <section class="form-section help-panel full">
+        <h2>Snabbhjälp</h2>
+        <dl>
+            <dt>PADDING</dt>
+            <dd>Extra luft runt varje beskuren bild. Lägre ger tightare klippning, högre ger mer luft.</dd>
+            <dt>MIN_AREA</dt>
+            <dd>Minsta objektstorlek som räknas som riktig bild. Höj vid småskräp, sänk om små ikoner missas.</dd>
+            <dt>THRESHOLD_VALUE</dt>
+            <dd>Styr vad som räknas som bakgrund eller motiv. Sänk vid brus, höj om ljusa detaljer försvinner.</dd>
+            <dt>MORPH_CLOSE_KERNEL</dt>
+            <dd>Kopplar ihop delar som hör till samma motiv. Öka om en ikon delas upp.</dd>
+            <dt>DILATE_KERNEL</dt>
+            <dd>Gör masken större så text, ram och symbol hålls ihop. Minska om flera motiv blir en bild.</dd>
+            <dt>PRESET</dt>
+            <dd>Färdiga inställningar för olika typer av bildark. Börja med Standard Ark och byt preset om appen hittar för få, för många eller sammanslagna bilder.</dd>
+        </dl>
+    </section>
+</form>
+{% endblock %}
+
+{% block scripts %}
+<script>
+window.KLIPPARE_PRESETS = {{ presets | tojson }};
+</script>
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+{% endblock %}

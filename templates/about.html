@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+<!-- about.html – förklarar Klippare för nya användare. Klipparen är byggd av Hans Åberg och KlⒶsse Kod -->
+
+{% block title %}Auto Klippare - By Åberg Online - Kort om Klippare{% endblock %}
+
+{% block content %}
+<article class="panel content-page">
+    <section>
+        <h2 class="about-title">Kort om Klippare</h2>
+        <p>Klippare är en liten webbapp som delar upp ett bildark i flera separata bilder.</p>
+        <p>Om du har en stor bild med många ikoner, loggor eller motiv på samma ark kan du ladda upp den i Klippare. Appen försöker hitta varje motiv automatiskt och klipper ut dem till egna PNG-filer.</p>
+        <p>När den är klar får du ladda ner alla bilder samlade i en ZIP-fil.</p>
+        <p>Kort sagt: Klippare gör jobbet åt dig när du annars hade behövt klippa ut varje liten bild för hand.</p>
+    </section>
+
+    <section>
+        <h2>Lite mer förklaring</h2>
+        <p>Klippare hjälper till när man har ett bildark med flera ikoner, loggor eller små motiv på samma bild. I stället för att klippa ut varje motiv för hand laddar man upp bildarket i appen, väljer några enkla inställningar och låter appen hitta motiven automatiskt.</p>
+        <p>När appen är klar får man tillbaka varje hittat motiv som en egen PNG-bild. Alla bilder packas också i en ZIP-fil, så att resultatet går att ladda ner direkt.</p>
+        <p>Appen tar emot en eller flera bilder i formaten PNG, JPG, JPEG eller WEBP. Den analyserar bilden med OpenCV, försöker hitta separata motiv på arket och beskär sedan ut dem en och en. Resultatet sparas tillfälligt på servern, visas på resultatsidan och kan laddas ner som en ZIP-fil.</p>
+        <p>Det här är användbart om man till exempel har ett stort ark med många små symboler, produktbilder, loggor eller ikoner och vill få ut dem som separata filer utan att sitta och markera varje ruta manuellt.</p>
+    </section>
+
+    <section>
+        <h2>Så används appen</h2>
+        <ol>
+            <li>Öppna appen i webbläsaren.</li>
+            <li>Ladda upp ett eller flera bildark.</li>
+            <li>Välj preset om standardinställningen inte passar.</li>
+            <li>Ändra eventuellt hur bilderna ska hittas på arket.</li>
+            <li>Välj hur de färdiga bilderna ska se ut, till exempel om de ska göras kvadratiska.</li>
+            <li>Klicka på <code>Klipp bilder</code>.</li>
+            <li>Ladda ner ZIP-filen med alla färdiga PNG-bilder.</li>
+        </ol>
+    </section>
+
+    <section>
+        <h2>Inställningarna i korthet</h2>
+        <p><code>PADDING</code> betyder extra luft runt varje bild som klipps ut. Högre värde ger mer marginal runt motivet.</p>
+        <p><code>MIN_AREA</code> bestämmer hur litet något får vara för att räknas som en riktig bild. Om småskräp blir egna bilder kan värdet höjas. Om små ikoner missas kan värdet sänkas.</p>
+        <p><code>THRESHOLD_VALUE</code> hjälper appen att skilja bakgrund från motiv. Det kan behöva justeras om bilden är ljus, brusig eller har svag kontrast.</p>
+        <p><code>MORPH_CLOSE</code> hjälper appen att koppla ihop delar som hör till samma motiv.</p>
+        <p><code>DILATE</code> gör masken lite större så att text, ram och symboler hålls ihop.</p>
+    </section>
+</article>
+{% endblock %}

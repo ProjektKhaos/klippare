@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+<!-- result.html – visar beskurna bilder och ZIP-länk för Klippare. Klipparen är byggd av Hans Åberg och KlⒶsse Kod -->
+
+{% block title %}Auto Klippare - By Åberg Online - Ladda ner Zipfil{% endblock %}
+
+{% block content %}
+<section class="hero compact">
+    <h1>Resultat</h1>
+    <p>{{ metadata.result_count }} bilder hittades från {{ metadata.uploaded_count }} uppladdade ark.</p>
+</section>
+
+{% if metadata.errors %}
+<div class="alert soft">
+    {% for error in metadata.errors %}
+    <div>{{ error }}</div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<section class="panel result-summary">
+    <div>
+        <h2>Inställningar</h2>
+        <dl class="settings-list">
+            <dt>PADDING</dt><dd>{{ metadata.settings.padding }}</dd>
+            <dt>MIN_AREA</dt><dd>{{ metadata.settings.min_area }}</dd>
+            <dt>THRESHOLD_VALUE</dt><dd>{{ metadata.settings.threshold_value }}</dd>
+            <dt>MORPH_CLOSE</dt><dd>{{ metadata.settings.morph_close_kernel_w }}x{{ metadata.settings.morph_close_kernel_h }}</dd>
+            <dt>DILATE</dt><dd>{{ metadata.settings.dilate_kernel_w }}x{{ metadata.settings.dilate_kernel_h }}</dd>
+            <dt>Kvadratisk canvas</dt><dd>{{ "Ja" if metadata.settings.make_square else "Nej" }}</dd>
+            <dt>Bakgrund</dt><dd>{{ metadata.settings.background_color }}</dd>
+        </dl>
+    </div>
+    <div class="download-box">
+        <a class="primary-button" href="{{ url_for('download', job_id=metadata.job_id) }}">Ladda ner ZIP</a>
+        <a class="secondary-link" href="{{ url_for('index') }}">Tillbaka till uppladdning</a>
+    </div>
+</section>
+
+<section class="preview-grid">
+    {% for filename in metadata.result_files %}
+    <figure class="preview-card">
+        <img src="{{ url_for('result_file', job_id=metadata.job_id, filename=filename) }}" alt="{{ filename }}">
+        <figcaption>{{ filename }}</figcaption>
+    </figure>
+    {% endfor %}
+</section>
+{% endblock %}
