@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./image/klippare_logga_banner.png" alt="Klippare banner logo" width="800">
+</p>
+
 # Klippare
 
 Klippare är en webbapp som hjälper till när man har ett bildark med flera ikoner, loggor eller små motiv på samma bild. I stället för att klippa ut varje motiv för hand laddar man upp bildarket i appen, väljer några enkla inställningar och låter appen hitta motiven automatiskt.
